@@ -8,8 +8,8 @@ wss.on("connection", function connection(ws, req) {
   console.log("connected to " + req.socket.remoteAddress?.toString());
 
   ws.on("message", function message(data) {
-    console.log("received: %s", data.toString());
-    ws.send("pizza");
+    console.log("Recieved message: %s", data.toString());
+    ws.send("Server says hi!");
   });
 });
 
