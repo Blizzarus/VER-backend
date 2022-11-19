@@ -36,7 +36,7 @@ io.on('connection', socket => {                      // when unity client connec
     socket.emit('updateGameState', data);               //send game state back to requester only
   });
 
-  socket.on('serverToGMSolveEvent', (data) => {                //action by player client
+  socket.on('solveEvent', (data) => {                //action by player client
     console.log('Received solve event. Guess is: ' + data);    //debugging log
   });
 
