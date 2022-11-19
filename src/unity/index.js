@@ -11,9 +11,9 @@ var io = socket(server, {
     pingTimeout: 5000  
 });
 
-io.adapter(redisAdapter({
+io.adapter(redisAdapter({ 
   host: 'localhost',                                  // REDIS ADAPTER TO REACT CLIENT
-  port: 3000
+  port: 6379 
 })); 
 
 io.use((socket, next) => {                            // middleware function 
