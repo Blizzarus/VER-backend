@@ -12,7 +12,7 @@ var io = socket(server, {
 });
 
 io.adapter(redisAdapter({ 
-  host: 'localhost',                                  // REDIS ADAPTER TO REACT CLIENT
+  host: 'localhost',                                  // REDIS ADAPTER TO UNITY CLIENT
   port: 6379 
 })); 
 
