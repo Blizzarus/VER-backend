@@ -1,2 +1,2 @@
-# VER-backend
-Backend for VirtualEscapeRoom project: https://github.com/Blizzarus/VirtualEscapeRoom
+# VER-Web
+Backend and WebApp for VirtualEscapeRoom project: https://github.com/Blizzarus/VirtualEscapeRoom
