@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { socket } from '../context/socket'
+// import { socket } from '../context/socket'
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Grid, Header, Image } from 'semantic-ui-react'
 
-const Login = () => {
+const Login = ({socket}) => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [isValid, setValid] = useState(true);
@@ -14,13 +14,14 @@ const Login = () => {
       setValid(false);
     } else {
       socket.emit('send-username', userName);
+      sessionStorage.setItem('userName', userName)
       // TODO: require unique?
-      navigate('/game');
+      navigate('/');
     }
   };
 
   return (
-    <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+  <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
     <Grid.Column 
       style={
         {
@@ -31,7 +32,7 @@ const Login = () => {
     >
       <Image src='/logo192.png' centered />
       <Header as='h1' color='teal' textAlign='center'>
-      Join the Game!
+        Join the Game!
       </Header>
       <Form size='large' onSubmit={handleSubmit}>
         <Form.Input 
