@@ -11,10 +11,10 @@ var io = socket(server, {
     pingTimeout: 5000  
 });
 
-io.adapter(redisAdapter({ 
-  host: 'localhost',                                  // REDIS ADAPTER TO UNITY CLIENT
-  port: 6379 
-})); 
+// io.adapter(redisAdapter({ 
+//   host: 'localhost',                                  // REDIS ADAPTER TO UNITY CLIENT
+//   port: 6379 
+// })); 
 
 io.use((socket, next) => {                            // middleware function 
     if (socket.handshake.query.token === "UNITY") {   //verify UNITY token
