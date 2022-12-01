@@ -44,13 +44,20 @@ const io = require('socket.io')(http, {
 
 const web = io.of('/web');
 web.on('connection', (socket) => {
-  console.log(`Web client ${socket.id} connected`);
-  socket.emit('requestGameState');
+
+  /*socket.on('STPUpdateGameState', (data) => {
+    if (socket.gamestate != data) {
+      socket.gamestate = data;
+      console.log('Gamestate updated');
+    } else {
+      console.log('Gamestate already up to date');
+    }
+  });*/
   
   socket.on('send-username', (data) => {
     socket.username = data;
-    socket.gamestate = data;
-    console.log(`New Player connected: ${socket.username}`);
+    io.of('/').emit('requestGameState', socket.username);
+    console.log(`New Player connected: ${socket.username}. Requesting Game State from GM.`);
   })
   
   socket.on('PTSSolve', (data) => {
@@ -65,7 +72,13 @@ web.on('connection', (socket) => {
 })
 
 io.on('connection', (socket) => {
-  console.log(`Unity client ${socket.id} connected.`);
+  console.log(`Unity client connected.`);
+
+  socket.on('updateGameState', (data) => {
+    console.log(`Attempting to forward gamestate ${data} to client`);
+    io.of('/web').emit('STPUpdateGameState', data);
+  });
+
 });
 
 http.listen(PORT, () => {

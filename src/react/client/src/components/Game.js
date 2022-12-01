@@ -48,6 +48,13 @@ const Game = ({socket}) => {
     }
   ];
 
+  socket.on('STPUpdateGameState', (data) => {
+    if (gamestate != data) {
+      setGamestate(data);
+    }
+    
+  });
+
   const handleSubmit = () => {
     const p = puzzles.findIndex((p) => p.gamestate === gamestate)
     const message = `::${puzzles[p].id}::${guess}`;
