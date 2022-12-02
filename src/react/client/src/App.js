@@ -5,7 +5,7 @@ import Login from './components/Login';
 import Game from './components/Game';
 import './App.css';
 
-const socket = io('http://localhost:4000/web');
+const socket = io('http://'+ window.location.hostname + ':4000/web');
 function App() {
   return (
     <BrowserRouter>
