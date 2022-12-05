@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-// import { socket } from '../context/socket'
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Grid, Header, Image } from 'semantic-ui-react'
 
 const Login = ({socket}) => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
-  const [isValid, setValid] = useState(true);
+  const [isError, setError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (userName === '') {
-      setValid(false);
+      setError(true);
     } else {
       socket.emit('send-username', userName);
-      sessionStorage.setItem('userName', userName)
+      sessionStorage.setItem('userName', userName);
       // TODO: require unique?
       navigate('/');
     }
@@ -37,14 +36,14 @@ const Login = ({socket}) => {
       <Form size='large' onSubmit={handleSubmit}>
         <Form.Input 
           fluid 
-          error={!isValid}
+          error={isError}
           icon='user' 
           iconPosition='left' 
           placeholder='Player Name' 
           value={userName} 
           onChange={(e) => { 
             setUserName(e.target.value);
-            setValid(e.target.value !== '');
+            setError(e.target.value === '');
           }}
         />
         <Button 
