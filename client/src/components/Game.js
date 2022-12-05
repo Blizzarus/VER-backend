@@ -6,7 +6,7 @@ import Clue from './Clue';
 const Game = ({socket}) => {
   const userName = sessionStorage.getItem('userName');
   const [guess, setGuess] = useState('');
-  const [gamestate, setGamestate] = useState('');
+  const [gamestate, setGamestate] = useState('waiting');
   const [modalOpen, setOpen] = useState(false);
   const [solveResult, setSolveResult] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -131,7 +131,7 @@ const Game = ({socket}) => {
       title: 'Clock',
       content: <>
           <p>It appears the clock is broken... None of the hands are moving.</p>
-          <Image src='/clock.png' centered title='Clock with secondary 24 hour markings. The hour hand points to 1/13 hours, the minute hand to 15 minutes, and the second hand to 31 seconds.'/>
+          <Image src='/clock.png' centered title='Clock with secondary 24 hour markings. The hour hand points to 1/13 hours, the minute hand to 15 minutes, and the second hand to 30 seconds.'/>
         </>
     },
     {
