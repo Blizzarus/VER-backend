@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form, Grid, Header, Image } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message } from 'semantic-ui-react'
 
 const Login = ({socket}) => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Login = ({socket}) => {
       <Header as='h1' color='teal' textAlign='center'>
         Join the Game!
       </Header>
-      <Form size='large' onSubmit={handleSubmit}>
+      <Form size='large' onSubmit={handleSubmit} error={isError}>
         <Form.Input 
           fluid 
           error={isError}
@@ -43,8 +43,15 @@ const Login = ({socket}) => {
           value={userName} 
           onChange={(e) => { 
             setUserName(e.target.value);
-            setError(e.target.value === '');
+            setError(e.target.value === '' || e.target.value.indexOf('::') > -1);
           }}
+        />
+        <Message
+          error
+          header='Invalid User Name'
+          content={
+            userName === '' ? 'Cannot be blank' : 'Cannot contain "::"'
+          }
         />
         <Button 
           color='teal' 
