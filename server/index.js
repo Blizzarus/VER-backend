@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const PORT = 4000;
 const WEBPORT = 3000;
 
@@ -7,6 +8,13 @@ const http = require('http').Server(app);
 const cors = require('cors');
 
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/", (req, res) => {
+  res.status(200).sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+app.listen(3000);
+
 
 const { networkInterfaces } = require('os');
 

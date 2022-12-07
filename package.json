@@ -2,12 +2,14 @@
   "name": "virtualescaperoom-web",
   "version": "1.0.0",
   "description": "Backend and WebApp for VirtualEscapeRoom project: https://github.com/Blizzarus/VirtualEscapeRoom",
-  "main": "index.js",
+  "main": "server/index.js",
+  "bin": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "npm --prefix server run serve",
-    "server": "npm --prefix client run serve",
-    "all": "concurrently \"npm run server\" \"npm run client\"" 
+    "client": "npm --prefix client run serve",
+    "server": "npm --prefix server run serve",
+    "all": "concurrently \"npm run server\" \"npm run client\"" ,
+    "pkg": "npm --prefix client run build && pkg ."
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/Blizzarus/VirtualEscapeRoom-Web/issues"
   },
-  "homepage": "https://github.com/Blizzarus/VirtualEscapeRoom-Web#readme"
+  "homepage": "https://github.com/Blizzarus/VirtualEscapeRoom-Web#readme",
+  "pkg": {
+    "scripts": "server/build/**/*.js",
+    "assets": ["server/build/static/css/*", "server/build/static/media/*", "server/build/static/*", "/server/build/*"],
+    "targets": ["node18"],
+    "outputPath": "dist"
+  }
 }
