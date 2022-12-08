@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/Blizzarus/VirtualEscapeRoom-Web#readme",
   "pkg": {
-    "scripts": "server/build/**/*.js",
-    "assets": ["server/build/static/css/*", "server/build/static/media/*", "server/build/static/*", "/server/build/*"],
+    "scripts": "server/public/**/*.js",
+    "assets": ["server/public/static/css/*", "server/public/static/media/*", "server/public/static/*", "/server/public/*"],
     "targets": ["node18"],
     "outputPath": "dist"
   }
