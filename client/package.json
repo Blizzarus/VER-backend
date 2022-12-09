@@ -21,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "npm run build && serve -s build",
-    "postbuild": "mv build ../server/public/"
+    "postbuild": "rimraf ../server/build && mv build ../server"
   },
   "eslintConfig": {
     "extends": [

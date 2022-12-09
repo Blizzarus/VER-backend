@@ -9,9 +9,9 @@ const cors = require('cors');
 
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "build")));
 app.use("/", (req, res) => {
-  res.status(200).sendFile(path.resolve(__dirname, "public", "index.html"));
+  res.status(200).sendFile(path.resolve(__dirname, "build", "index.html"));
 });
 app.listen(3000);
 
@@ -45,24 +45,34 @@ const io = require('socket.io')(http, {
 });
 
 const web = io.of('/web');
+const unity = io.of('/');
+unity.use((socket, next) => {
+  if (socket.handshake.query.token === "UNITY") {
+      next();
+  } else {
+      next(new Error("Authentication error"));
+  }
+});
+
 web.on('connection', (socket) => {
   console.log(`Web Client connected: ${socket.id}`);
-  socket.emit('request-logged-in-user');  
+  socket.emit('request-logged-in-user');
   socket.on('send-username', (data) => {
     if (socket.username === undefined || socket.username === null) {
       socket.username = data;
-      console.log(`Player connected: ${socket.username}. Requesting Game State from GM.`);
-    } 
-    io.of('/').emit('requestGameState', socket.username);
+      console.log(`Player connected: ${socket.username}.`);
+    }
+    console.log(`Requesting Game State from GM.`)
+    unity.emit('requestGameState', socket.username);
   })
   
   socket.on('solveEvent', (data) => {
     const message = socket.username + data;
-    io.of('/').emit('solveEvent', message);
+    unity.emit('solveEvent', message);
   });
 
   socket.on('requestGameState', (data) => {
-    io.of('/').emit('requestGameState', socket.username);
+    unity.emit('requestGameState', socket.username);
   });
   
   socket.on('disconnect', () => {
@@ -70,17 +80,17 @@ web.on('connection', (socket) => {
   });
 })
 
-io.on('connection', (socket) => {
+unity.on('connection', (socket) => {
   console.log(`Unity client connected.`);
-
+  socket.emit('requestGameState');
   socket.on('updateGameState', (data) => {
     console.log(`Attempting to forward gamestate "${data}" to client`);
-    io.of('/web').emit('updateGameState', data);
+    web.emit('updateGameState', data);
   });
 
   socket.on('solveEvent', (data) => {
     console.log('solveEvent', data);
-    io.of('/web').emit('solveResult', data);
+    web.emit('solveResult', data);
   });
 
 });
